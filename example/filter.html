@@ -1,0 +1,66 @@
+<script src="../tinytest.js"></script>
+<script>
+
+function filter(array, callback, optionalThisObject) {
+	var filterCallback = callback;
+
+	if (optionalThisObject) {
+		filterCallback = callback.bind(optionalThisObject);
+	}
+	for(var i = 0; i < array.length; i++) {
+		filterCallback(array[i], i, array);
+	}
+};
+
+tests({
+
+'It should run callback function array.length times': function() {
+	var numberOfTimesCallbackRuns = 0;
+	filter([1, 2, 3], function() {
+		numberOfTimesCallbackRuns++;
+	})
+	eq(numberOfTimesCallbackRuns, 3);
+
+},
+'It should return the ith element as the first argument to the callback': function() {
+	filter([1], function(element) {
+		eq(element, 1);
+	})
+},
+'It should pass the ith position as the second argument to the callback': function() {
+	filter([1], function(element, position) {
+		eq(position, 0);
+	})
+},
+'It should pass the originalArray as the third argument to the callback': function() {
+	var arr = [1, 2, 3];
+	filter(arr, function(element, position, originalArray) {
+		eq(arr, originalArray);
+	}) 
+},
+'It should accept an optional this object': function() {
+	filter([1], function(element) {
+		eq(this.country, 'Hrvatska');
+	}, {country: 'Hrvatska'})
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+});
+</script>

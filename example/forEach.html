@@ -1,0 +1,71 @@
+<script src="../tinytest.js"></script>
+<script>
+
+// The original function that is being tested.
+function forEach(array, callback, optionalThisObject) {
+	var forEachCallback = callback;
+
+	if (optionalThisObject) {
+	  	forEachCallback = callback.bind(optionalThisObject);
+	}
+	for (var i = 0; i < array.length; i++) {
+		forEachCallback(array[i], i, array);
+	}
+}
+
+// Example 1: Should run 3 times.
+// forEach([1, 2, 3], function() {
+// 	console.log('hi');
+// });
+
+// Example 2: Should show the value of each number.
+// forEach([1, 2, 3], function(number) {
+// 	console.log(number);
+// });
+
+// Example 3: 
+// forEach(array, function(number, index) {
+// 	console.log(number, index);
+// });
+
+// Example 4: 
+// forEach(array, function(number, index, originalArray) {
+// 	console.log(number, index, originalArray);
+// });
+
+tests({
+
+ 'It should run callback function array.length times': function() {
+ 	var numberOfTimesCallbackHasRun = 0;
+ 	forEach([1, 2, 3], function() {
+ 		numberOfTimesCallbackHasRun ++;
+	});
+	 eq(numberOfTimesCallbackHasRun, 3)
+ 	
+ },
+ 'It should pass the ith element as the first argument to the callback': function() {
+ 	forEach([1], function(number) {
+		eq(number, 1);
+	});
+ },
+ 'It should pass the ith position as the second argument to the callback': function() {
+ 	forEach([1], function(number, index) {
+ 		eq(index, 0);
+ 	})
+ },
+ 'It should pass in the originalArray as the third argument to the callback': function() {
+ 	var originalArray = [1, 2, 3];
+ 	forEach(originalArray, function(number, index, arr) {
+ 		eq(arr, originalArray);
+ 	})
+ },
+ 'It should accept an optional this object': function() {
+ 	forEach([2], function(){
+ 		eq(this.description, 'Hrvat');
+ 	}, {description: 'Hrvat'})
+ }
+
+ 
+
+});
+</script>
