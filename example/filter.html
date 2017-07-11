@@ -7,9 +7,14 @@ function filter(array, callback, optionalThisObject) {
 	if (optionalThisObject) {
 		filterCallback = callback.bind(optionalThisObject);
 	}
-	for(var i = 0; i < array.length; i++) {
-		filterCallback(array[i], i, array);
+	var filteredArray = [];
+	for (var i = 0; i < array.length; i++) {
+		//the if statement evaluates to true
+    	if (filterCallback(array[i], i, array)) {
+    		filteredArray.push(array[i]);
+    	}
 	}
+	return filteredArray;
 };
 
 tests({
@@ -41,7 +46,24 @@ tests({
 'It should accept an optional this object': function() {
 	filter([1], function(element) {
 		eq(this.country, 'Hrvatska');
-	}, {country: 'Hrvatska'})
+	}, {country: 'Hrvatska'});
+},
+'It should return an array': function() {
+	var oldArray = [1, 2, 3];
+	var newArray = filter(oldArray, function() {});
+		eq(Array.isArray(newArray), true);
+},
+'It should return a new array, not the array being filtered': function() {
+	var oldArray = [1];
+	var newArray = filter(oldArray, function() {});
+		eq(newArray !== oldArray, true);
+},
+'It should return a new array that only has elements where callback is true': function() {
+	var filteredArray = filter([1, 2], function(number) {
+		return number > 1;
+	})
+		eq(filteredArray.length, 1);
+		eq(filteredArray[0], 2)
 }
 
 
