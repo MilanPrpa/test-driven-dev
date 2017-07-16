@@ -1,0 +1,95 @@
+<script src="../tinytest.js"></script>
+<script>
+
+/*Final Function*/
+	// function reduce(arr, callback, startingValue) {
+	// 	var resultSoFar = startingValue;
+	// 	for (var i = 0; i < arr.length; i++) {
+	// 		resultSoFar = callback(resultSoFar, arr[i]);
+	// 	}
+	// 	return resultSoFar;
+	// }
+
+/*Our version of the reduce method*/
+//reduce(arr, callback[, initialValue])
+
+	//callback() parameters:
+	//previousValue
+	//currentValue
+	//currentIndex
+	//array
+
+
+
+
+
+
+tests({
+//Created another test because test below, function was not running.
+'If initialValue, callback should run array.length times': function() {
+	
+
+},
+'If no initialValue, callback should run array.length -1 times': function() {
+	
+},
+
+
+
+'If initialValue, previousValue should start with initialValue': function() {
+	
+},
+'If initialValue, currentValue should start with array[0]': function() {
+
+},
+'If initialValue, currentIndex should start at index 0': function() {
+	
+},
+
+
+
+'If no initialValue, previousValue should start with array[0]': function() {
+
+},
+'If no initialValue, currentValue should start with array[1]': function() {
+	
+},
+'If no initialValue, callback will start at index 1': function() {
+
+}, 
+'If initialValue, and array is empty, return initialValue without calling callback': function() {
+
+},
+'If no initialValue, and array has one element, it should return that element without calling callback': function() {
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+});
+</script>
