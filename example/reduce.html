@@ -19,7 +19,46 @@
 	//currentIndex
 	//array
 
+function reduce(array, callback, initialValue) {
+	var startingIndex = 0;
+	var resultSoFar = initialValue;
 
+	// No initialValue.
+	if (arguments.length < 3) {
+		
+		// Array one element test, test for holes as well.
+		// Object.keys checks to see how many elements in array. Excludes holes.
+		if (Object.keys(array).length === 1) {
+			var onlyIndex = Object.keys(array)[0];
+			var onlyElement = array[onlyIndex];
+			// Return always exits function so callback below wont be called.
+			return	onlyElement;
+		}
+		// We want to skip holes at the beginning of the array.
+		// We use a while loop; while holes at beginning of array
+		// Ex: [, , 1]; is 0(startingIndex) in array true? No. Then increment ++. Is 1 in array true? No. Then ++, esc.
+		while (startingIndex in array === false) {
+			startingIndex++;
+		}
+
+		resultSoFar = array[startingIndex];
+		startingIndex++
+
+	// Has initialValue.
+	} else{
+		if (Object.keys(array).length === 0) {
+			return initialValue;
+		}
+	}
+	
+	for (var i = startingIndex; i < array.length; i++) {
+		// i in array checks if element is there. It skips and excludes holes.
+		if (i in array) {
+		resultSoFar = callback(resultSoFar, array[i], i, array);
+	 }
+	}
+	return resultSoFar;
+};
 
 
 
@@ -27,43 +66,103 @@
 tests({
 //Created another test because test below, function was not running.
 'If initialValue, callback should run array.length times': function() {
-	
+
+	numberOfTimesCallbackRuns = 0;
+	reduce([1], function() {
+		numberOfTimesCallbackRuns++
+	}, 0);
+	eq(numberOfTimesCallbackRuns, 1)
 
 },
-'If no initialValue, callback should run array.length -1 times': function() {
-	
+'If no initialValue, callback should run array.length -1 less times': function() {
+
+	numberOfTimesCallbackRuns = 0;
+	reduce([1,2], function() {
+		numberOfTimesCallbackRuns++
+	});
+	eq(numberOfTimesCallbackRuns, 1)
+
 },
-
-
-
 'If initialValue, previousValue should start with initialValue': function() {
+	reduce([1], function(previousValue) {
+		eq(previousValue, 0);
+	}, 0)
 	
 },
 'If initialValue, currentValue should start with array[0]': function() {
+	reduce([1], function(previousValue, currentValue) {
+		eq(currentValue, 1);
+	}, 0)
 
 },
 'If initialValue, currentIndex should start at index 0': function() {
-	
+	reduce([1], function(previousValue, currentValue, currentIndex) {
+		eq(currentIndex, 0)
+	}, 0)
+
+
+
 },
-
-
-
 'If no initialValue, previousValue should start with array[0]': function() {
-
+	
+	reduce([1, 2], function(previousValue) {
+		eq(previousValue, 1);
+	})
 },
 'If no initialValue, currentValue should start with array[1]': function() {
 	
+	reduce([1, 2], function(previousValue, currentValue) {
+		eq(currentValue, 2);
+	})
 },
 'If no initialValue, callback will start at index 1': function() {
+	reduce([1, 2], function(previousValue, currentValue, currentIndex) {
+		eq(currentIndex, 1);
+	})
+
+
 
 }, 
 'If initialValue, and array is empty, return initialValue without calling callback': function() {
+	
+	var initialValue = 1;
+	var reduceArray = reduce([], function() {}, initialValue);
 
+	eq(reduceArray, initialValue)
 },
 'If no initialValue, and array has one element, it should return that element without calling callback': function() {
-	
-}
+	var reduceArray = reduce([1], function() {});
+	eq(reduceArray, 1);
+},
+'It should actually reduce': function() {
+	var reduceArray = reduce([1,2,3], function(previousValue, currentValue) {
+		return previousValue + currentValue
+	}, 0);
+	eq(reduceArray, 6 )
 
+
+
+},
+'It should exlude holes': function() {
+	var reduceArray = reduce([, 1, 2], function(a, b) {
+		return a + b;
+	}, 0);
+	eq(reduceArray, 3);
+},
+'If no initialValue, it should exlude holes': function() {
+	var reduceArray = reduce([, 1, 2], function(a, b) {
+		return a + b;
+	});
+	eq(reduceArray, 3);
+
+
+},
+'It should pass array as fourth argument to callback': function() {
+	 arrayToReduce = [1, 2];
+	var reduceArray = reduce(arrayToReduce, function(previousValue, currentValue, currentIndex, currentArray) {
+		eq(currentArray, arrayToReduce)
+	}, 0);
+}
 
 
 
