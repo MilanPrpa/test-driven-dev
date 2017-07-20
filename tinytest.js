@@ -40,6 +40,7 @@
 var TinyTest = {
 
     run: function(tests) {
+
         var failures = 0;
         for (var testName in tests) {
             var testAction = tests[testName];
@@ -52,6 +53,9 @@ var TinyTest = {
                 console.error(e.stack);
             }
         }
+        /* This uses the event loop. The setTimeout function goes in as a
+         web API, then it goes to the callback queue. When JS has finished
+         setTimeout is sent through event loop and run. */
         setTimeout(function() { // Give document a chance to complete
             if (window.document && document.body) {
                 document.body.style.backgroundColor = (failures == 0 ? '#99ff99' : '#ff9999');
