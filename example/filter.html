@@ -62,7 +62,7 @@ tests({
 	var newArray = filter(oldArray, function() {});
 		eq(newArray !== oldArray, true);
 },
-'It should return a new array that only has elements where callback is true': function() {
+'It should return a new array that only has elements where callback is true': function {
 	var filteredArray = filter([1, 2], function(number) {
 		return number > 1;
 	})
@@ -75,6 +75,8 @@ tests({
 'something else'
 'xxxxxxxx'
 'true merge'
+
+
 
 
 
