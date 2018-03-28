@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Tiniest JavaScript unit testing library
 =======================================
 
@@ -95,3 +96,6 @@ Other stuff
 I also have [TinyTest for C](https://github.com/joewalnes/tinytest) that follows similar principles of simplicity.
 
 Now check out my other [GitHub projects](https://github.com/joewalnes) and follow [@joewalnes](https://twitter.com/joewalnes) on that Twitter thing.
+=======
+# test-driven-dev
+>>>>>>> d1ac83a9bad735b3fb82d212215ddce8afe37da3
