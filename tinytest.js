@@ -40,6 +40,7 @@
 var TinyTest = {
 
     run: function(tests) {
+       
 
         var failures = 0;
         for (var testName in tests) {

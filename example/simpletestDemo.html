@@ -1,19 +1,17 @@
-<script src="../mySimpleTestJS.js"></script>
+<script src="../myTest.js"></script>
 <script>
 
 
+function adder(x, y) {
+	return x + y;
+}
 
 tests({
 
 
-'Sample Success': function() {},
-'Sample Failure': function() {
-	fail();
-},
-'Sample Failures': function() {
-	fail();
+'Sample Success': function() {
+	assertStrict(adder(1,3), 3)
 }
-
 
 
 
